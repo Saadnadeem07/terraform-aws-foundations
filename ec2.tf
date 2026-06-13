@@ -48,8 +48,13 @@ resource "aws_security_group" "web" {
 }
 
 resource "aws_instance" "web" {
+  for_each = tomap({
+      tf-automated-t2-micro = var.instance_type
+      saad-nadeem = "t2-micro"
+      m = "t2-micro"
+  })
   ami                    = var.ubuntu_image_id
-  instance_type          = var.instance_type
+  instance_type          = each.value
   key_name               = aws_key_pair.key.key_name
   vpc_security_group_ids = [aws_security_group.web.id]
 
@@ -59,6 +64,6 @@ resource "aws_instance" "web" {
   }
 
   tags = {
-    Name = "Automated EC2"
+    Name = each.key
   }
 }
