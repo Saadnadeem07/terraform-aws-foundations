@@ -10,7 +10,6 @@ terraform {
     bucket = "tf-backup-bucket-sn-7223"
     region = "eu-central-1"
     key    = "terraform.tfstate"
-    use_lockfile = "tf_backup_db"
-    
+    use_lockfile = true
   }
 }
