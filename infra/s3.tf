@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "backup_bucket" {
-  bucket = "tf_backup_bucket"
+  bucket = "tf-backup-bucket"
 
   tags = {
-    Name        = "tf_backup_bucket"
+    Name        = "tf-backup-bucket"
   }
 }
