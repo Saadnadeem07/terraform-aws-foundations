@@ -10,7 +10,7 @@ terraform {
     bucket = "tf-backup-bucket-sn-7223"
     region = "eu-central-1"
     key    = "terraform.tfstate"
-    dynamodb_table = "tf_backup_db"
+    use_lockfile = "tf_backup_db"
     
   }
 }
