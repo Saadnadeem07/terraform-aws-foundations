@@ -14,7 +14,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_key_pair" "key" {
-  key_name   = "my-tf-key"
+  key_name   = "my-tf-key-${local.env}"
   public_key = file("my-tf-key.pub")
 }
 
@@ -25,7 +25,7 @@ resource "aws_default_vpc" "default" {
 }
 
 resource "aws_security_group" "web" {
-  name        = "web-sg"
+  name        = "web-sg-${local.env}"
   description = "Allow SSH, HTTP, and HTTPS inbound and all outbound traffic"
   vpc_id      = aws_default_vpc.default.id
   #inbound rules
@@ -58,27 +58,25 @@ resource "aws_security_group" "web" {
     protocol    = "-1" # semantically equivalent to all ports
   }
   tags = {
-    Name = "tf-automated-sg"
+    Name = "tf-automated-sg-${local.env}"
   }
 }
 
 resource "aws_instance" "web" {
-  for_each = tomap({
-      tf-automated-t2-micro = var.instance_type
-      # saad-nadeem = "t2.micro"
-      # m = "t2.micro"
-  })
+  # Number of instances comes from the per-environment config.
+  count = local.config.instance_count
+
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = each.value
+  instance_type          = local.config.instance_type
   key_name               = aws_key_pair.key.key_name
   vpc_security_group_ids = [aws_security_group.web.id]
 
   root_block_device {
-    volume_size = var.ec2_volume_size
+    volume_size = local.config.ec2_volume_size
     volume_type = var.ec2_volume_type
   }
 
   tags = {
-    Name = each.key
+    Name = "${local.env}-web-${count.index}"
   }
 }

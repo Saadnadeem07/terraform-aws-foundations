@@ -4,17 +4,8 @@ variable "region" {
   default     = "eu-central-1"
 }
 
-variable "instance_type" {
-  description = "The EC2 instance size to deploy"
-  type        = string
-  default     = "t2.micro"
-}
-
-variable "ec2_volume_size" {
-  description = "Size of the root EBS volume in GiB"
-  type        = number
-  default     = 15
-}
+# instance_type and ec2_volume_size are now set per-environment in locals.tf
+# (see local.env_config), keyed by the active workspace.
 
 variable "ec2_volume_type" {
   description = "Type of the root EBS volume"
