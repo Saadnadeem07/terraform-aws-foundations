@@ -64,6 +64,7 @@ resource "aws_instance" "web" {
   }
 
   tags = {
-    Name = "${local.env}-web-${count.index}"
+    Name = "${var.env}-infra-app-ec2"
+    environment = var.env
   }
 }
