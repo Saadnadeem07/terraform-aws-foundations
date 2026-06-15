@@ -1,6 +1,6 @@
-# Terraform Learning
+# terraform-aws-foundations
 
-Hands-on Terraform examples on AWS, organized into two independent stacks:
+Hands-on Terraform foundations on AWS, organized into two independent stacks:
 
 1. **`backend-bootstrap/`** — provisions the remote-state backend (S3 bucket + DynamoDB lock table).
 2. **`multi-env/`** — a reusable module deployed across multiple environments (`dev`, `prod`, `staging`).
